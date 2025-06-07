@@ -14,14 +14,14 @@
 
 // Tap Dance Declarations
 enum {
-    TD_TAB_CAPS = 0,
+    TD_LSFT_CAPS = 0,
     TD_ESC_EQL = 1,
 
 };
 
 // Tap Dance Actions
 tap_dance_action_t tap_dance_actions[] = {
-    [TD_TAB_CAPS] = ACTION_TAP_DANCE_DOUBLE(KC_TAB, KC_CAPS),
+    [TD_LSFT_CAPS] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
     [TD_ESC_EQL] = ACTION_TAP_DANCE_DOUBLE(KC_EQL, KC_ESC),
 
 
@@ -48,7 +48,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         //┌────────┬────────┬────────┬────────┬────────┬────────┐                          ┌────────┬────────┬────────┬────────┬────────┬────────┐
     TD(TD_ESC_EQL),  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                               KC_6,    KC_7,    KC_8,    KC_9,   KC_0,    KC_MINS,
         //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
-   TD(TD_TAB_CAPS),  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                               KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCLN, KC_BSLS,
+   TD(TD_LSFT_CAPS),  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                               KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCLN, KC_BSLS,
         //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
            KC_LSFT,  KC_A,    KC_R,    KC_S,    KC_T,    KC_G,                               KC_M,    KC_N,    KC_E,    KC_I,    KC_O,   RSFT_T(KC_QUOT),
         //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤

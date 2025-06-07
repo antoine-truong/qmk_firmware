@@ -1,10 +1,11 @@
-// keyboards/keebio/iris/keymaps/colemak_dhm/keymap.c
+// keyboards/keebio/iris/keymaps/colemak_dh/keymap.c
 #include QMK_KEYBOARD_H
 #include "quantum.h" // For layer_state_is()
 #ifdef RGB_MATRIX_ENABLE
 #include "rgb_matrix.h" // Include here, *outside* the other #ifdef
 #endif
 #include "matrix.h"
+#include "config.h"
 
 #define _COLEMAK 0
 #define _NUMPAD 1

@@ -20,5 +20,34 @@ On VS press CRTL+SHIFT+P
     }
 }
 
+Add system PATH when opening MSYS2
+- Edit the MSYS2 shell command file:
+  - Open the file: `D:/Tools/MSYS2/msys2_shell.cmd`
+  - uncomment the line that sets the PATH variable:
+    ```
+    rem set MSYS2_PATH_TYPE=inherit  --> set MSYS2_PATH_TYPE=inherit
+    ```
 
+Go to github and fork the QMK firmware repository: https://github.com/qmk/qmk_firmware
+- Open a terminal in VS Code
+- Clone your forked repository:
+git clone https://github.com/antoine-truong/qmk_firmware.git
+
+Create a new keymap
+- Open the terminal in VS Code
+
+- Navigate to the keyboard directory:
+cd qmk_firmware/keyboards/keebio/iris
+- Create a new keymap:
+qmk new-keymap -km <your_keymap_name>
+- Open the keymap file:
+code keyboards/keebio/iris/keymaps/your_keymap_name/keymap.c
+- Edit the keymap file as needed.
+- Save the file.
+- Configure the QMK environment:
+qmk config keyboard=keebio/iris/rev6
+qmk config keymap=<your_keymap_name>
+- Compile the firmware:
+qmk compile -kb keebio/iris/rev6 -km your_keymap_name
+- The compiled firmware will be saved in the `qmk_firmware/.build/` directory.
 
