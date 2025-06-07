@@ -1,0 +1,24 @@
+Install MSYS2 https://www.msys2.org/
+Open a MSYS2 shell:
+- cmd <path to msys2>/shell_cmd
+- run: pacman --needed --noconfirm --disable-download-timeout -S git mingw-w64-x86_64-python-qmk
+On VS press CRTL+SHIFT+P
+- Terminal: Configure Terminal Settings
+- go to Windows and press 'Edit in settings.json'
+- add the following line to the settings.json file:
+{
+    "terminal.integrated.profiles.windows": {
+        "MSYS2": {
+        "path": "D:/Tools/MSYS2/msys2_shell.cmd",
+        "args": ["-mingw64", "-defterm", "-no-start", "-here"],
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "MSYS2",
+    "terminal.integrated.env.windows": {
+
+
+    }
+}
+
+
+
