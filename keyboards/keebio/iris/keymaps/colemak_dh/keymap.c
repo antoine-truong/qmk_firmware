@@ -69,7 +69,8 @@ tap_dance_action_t tap_dance_actions[] = {
     [TD_BSLS_INS] = ACTION_TAP_DANCE_DOUBLE(KC_BSLS, KC_INS),
     [TD_HH_GRV_LC_LA] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, grv_lctl_lalt_finished, grv_lctl_lalt_reset),
     [TD_HH_RCTL_RALT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, rctl_ralt_finished, rctl_ralt_reset),
-    [TD_LSFT_CAPS] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS)
+    [TD_LSFT_CAPS] = ACTION_TAP_DANCE_DOUBLE(KC_LSFT, KC_CAPS),
+    [TD_RSFT_QUOT] = ACTION_TAP_DANCE_DOUBLE(KC_RSFT, KC_QUOTE)
 
 };
 
@@ -92,15 +93,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_COLEMAK] = LAYOUT(
         //┌────────┬────────┬────────┬────────┬────────┬────────┐                          ┌────────┬────────┬────────┬────────┬────────┬────────┐
-    TD(TD_ESC_EQL),  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                               KC_6,    KC_7,    KC_8,    KC_9,   KC_0,    KC_MINS,
+    TD(TD_ESC_EQL),  KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                               KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_MINS,
         //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
-            KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                               KC_J,    KC_L,    KC_U,    KC_Y,   KC_SCLN, TD(TD_BSLS_INS),
+            KC_TAB,  KC_Q,    KC_W,    KC_F,    KC_P,    KC_B,                               KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, TD(TD_BSLS_INS),
         //├────────┼────────┼────────┼────────┼────────┼────────┤                          ├────────┼────────┼────────┼────────┼────────┼────────┤
-   TD(TD_LSFT_CAPS), KC_A,    KC_R,    KC_S,    KC_T,    KC_G,                               KC_M,    KC_N,    KC_E,    KC_I,    KC_O,   RSFT_T(KC_QUOT),
+   TD(TD_LSFT_CAPS), KC_A,    KC_R,    KC_S,    KC_T,    KC_G,                               KC_M,    KC_N,    KC_E,    KC_I,    KC_O,    TD(TD_RSFT_QUOT),
         //├────────┼────────┼────────┼────────┼────────┼────────┼────────┐        ┌────────┼────────┼────────┼────────┼────────┼────────┼────────┤
-TD(TD_HH_GRV_LC_LA),  KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,   KC_HOME,           KC_END,   KC_K,    KC_H,   KC_COMM, KC_DOT, KC_SLSH, TD(TD_HH_RCTL_RALT),
+TD(TD_HH_GRV_LC_LA), KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,    KC_HOME,          KC_END,  KC_K,    KC_H,    KC_COMM, KC_DOT,  KC_SLSH, TD(TD_HH_RCTL_RALT),
         //└────────┴────────┴────────┴───┬────┴───┬────┴───┬────┴───┬────┘        └───┬────┴───┬────┴───┬────┴───┬────┴────────┴────────┴────────┘
-                                          KC_BSPC,  KC_DEL, MO(_LOWER),              MO(_RAISE),  KC_ENT,  KC_SPC
+                                          KC_BSPC,  KC_DEL, MO(_LOWER),              MO(_RAISE), KC_ENT,  KC_SPC
                                       // └────────┴────────┴────────┘                 └────────┴────────┴────────┘
                                     ),
     [_NUMPAD] = LAYOUT(
@@ -187,14 +188,6 @@ TD(TD_HH_GRV_LC_LA),  KC_Z,    KC_X,    KC_C,    KC_D,    KC_V,   KC_HOME,      
 
     switch (keycode) {
 
-/*         case TD(CT_CLN):  // list all tap dance keycodes with tap-hold configurations
-            action = &tap_dance_actions[QK_TAP_DANCE_GET_INDEX(keycode)];
-            if (!record->event.pressed && action->state.count && !action->state.finished) {
-                tap_dance_tap_hold_t *tap_hold = (tap_dance_tap_hold_t *)action->user_data;
-                tap_code16(tap_hold->tap);
-            }
-            return false;
-            break; */
        case LIGHT:
             if (record->event.pressed) {
                 next_light_mode();
@@ -348,8 +341,7 @@ void set_range(uint8_t start, uint8_t stop, uint8_t led_min, uint8_t led_max, ui
             if ((i >= 13 && i <= 15) || i == 9) {
                 // arrow keys
                 rgb_matrix_set_color(i, 179, 0, 0);
-            } else if (i == 57) {
-                // ALT key
+            } else if (i == 57) {     // ALT key
                 rgb_matrix_set_color(i, 200, 200, 0);
             } else if (i == 21 || i == 55) {
                 // < and > keys
@@ -456,7 +448,7 @@ static td_tap_t rctl_ralt_tap_state = {
 void grv_lctl_lalt_finished(tap_dance_state_t *state, void *user_data) {
     grv_lctl_lalt_tap_state.state = cur_dance(state);
     switch (grv_lctl_lalt_tap_state.state) {
-        case TD_SINGLE_TAP: register_code(KC_GRV); break;
+        case TD_SINGLE_TAP: register_code(KC_LCTL); break;
         case TD_SINGLE_HOLD: register_code(KC_LCTL); break;
         case TD_DOUBLE_TAP: register_code(KC_HOME); break;
         case TD_DOUBLE_HOLD: register_code(KC_LALT); break;
@@ -472,6 +464,7 @@ void grv_lctl_lalt_finished(tap_dance_state_t *state, void *user_data) {
 void rctl_ralt_finished(tap_dance_state_t *state, void *user_data) {
     rctl_ralt_tap_state.state = cur_dance(state);
     switch (rctl_ralt_tap_state.state) {
+        case TD_SINGLE_TAP: register_code(KC_RCTL); break;
         case TD_SINGLE_HOLD: register_code(KC_RCTL); break;
         case TD_DOUBLE_HOLD: register_code(KC_RALT); break;
         case TD_DOUBLE_TAP: register_code(KC_END); break;
@@ -483,7 +476,7 @@ void rctl_ralt_finished(tap_dance_state_t *state, void *user_data) {
 // This function is called when the tap dance is reset
 void grv_lctl_lalt_reset(tap_dance_state_t *state, void *user_data) {
     switch (grv_lctl_lalt_tap_state.state) {
-        case TD_SINGLE_TAP: unregister_code(KC_GRV); break;
+        case TD_SINGLE_TAP: unregister_code(KC_LCTL); break;
         case TD_SINGLE_HOLD: unregister_code(KC_LCTL); break;
         case TD_DOUBLE_TAP: unregister_code(KC_HOME); break;
         case TD_DOUBLE_HOLD: unregister_code(KC_LALT); break;
@@ -496,6 +489,7 @@ void grv_lctl_lalt_reset(tap_dance_state_t *state, void *user_data) {
 // Reset function for the right control and right alt tap dance
 void rctl_ralt_reset(tap_dance_state_t *state, void *user_data) {
     switch (rctl_ralt_tap_state.state) {
+        case TD_SINGLE_TAP: unregister_code(KC_RCTL); break;
         case TD_SINGLE_HOLD: unregister_code(KC_RCTL); break;
         case TD_DOUBLE_HOLD: unregister_code(KC_RALT); break;
         case TD_DOUBLE_TAP: unregister_code(KC_END); break;
